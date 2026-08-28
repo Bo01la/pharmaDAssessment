@@ -5,5 +5,5 @@
     <type>Text</type>
     <length>80</length>
     <required>true</required>
-    <inlineHelpText>Trailing field of the Big Object Index (Max 100 chars).</inlineHelpText>
+    <inlineHelpText>Trailing field of the Big Object Index (Max 80 chars).</inlineHelpText>
 </CustomField>
