@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_Email__c</fullName>
+    <label>Email</label>
+    <type>Email</type>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <inlineHelpText>Stores guest data to avoid Person Account/Data Skew bloat.</inlineHelpText>
+</CustomField>
