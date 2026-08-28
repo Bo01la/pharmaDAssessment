@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_City__c</fullName>
+    <description>City picklist using the abc_City_values global value set.</description>
+    <label>City</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>abc_City_values</valueSetName>
+    </valueSet>
+</CustomField>

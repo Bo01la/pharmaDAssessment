@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_Governorate__c</fullName>
+    <description>Governorate picklist using the abc_Governorate_values global value set.</description>
+    <label>Governorate</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>abc_Governorate_values</valueSetName>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Cairo</fullName>
+        <default>false</default>
+        <label>Cairo</label>
+    </customValue>
+    <customValue>
+        <fullName>Alexandria</fullName>
+        <default>false</default>
+        <label>Alexandria</label>
+    </customValue>
+    <customValue>
+        <fullName>Giza</fullName>
+        <default>false</default>
+        <label>Giza</label>
+    </customValue>
+    <customValue>
+        <fullName>Shubra_El_Kheima</fullName>
+        <default>false</default>
+        <label>Shubra El-Kheima</label>
+    </customValue>
+    <customValue>
+        <fullName>Port_Said</fullName>
+        <default>false</default>
+        <label>Port Said</label>
+    </customValue>
+    <customValue>
+        <fullName>Suez</fullName>
+        <default>false</default>
+        <label>Suez</label>
+    </customValue>
+    <customValue>
+        <fullName>Luxor</fullName>
+        <default>false</default>
+        <label>Luxor</label>
+    </customValue>
+    <customValue>
+        <fullName>Aswan</fullName>
+        <default>false</default>
+        <label>Aswan</label>
+    </customValue>
+    <customValue>
+        <fullName>Mansoura</fullName>
+        <default>false</default>
+        <label>Mansoura</label>
+    </customValue>
+    <customValue>
+        <fullName>Tanta</fullName>
+        <default>false</default>
+        <label>Tanta</label>
+    </customValue>
+    <description>Global value set for city picklist values used on the abc_Customer__c object.</description>
+    <masterLabel>City Values</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
