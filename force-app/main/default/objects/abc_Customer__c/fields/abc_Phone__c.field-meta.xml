@@ -3,6 +3,6 @@
     <fullName>abc_Phone__c</fullName>
     <description>Secondary contact method for the customer.</description>
     <label>Phone</label>
-    <required>false</required>
+    <required>true</required>
     <type>Phone</type>
 </CustomField>
