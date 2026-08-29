@@ -379,7 +379,7 @@ Content-Type: application/json
 
 | Field | Value |
 |---|---|
-| Username | `assessments@cloudastick.com.pharmaD` |
+| Username | `assessments@cloudastick.com.pharmd.com` |
 | Email | `assessments@cloudastick.com` |
 | Profile | System Administrator |
 | License | Salesforce |
