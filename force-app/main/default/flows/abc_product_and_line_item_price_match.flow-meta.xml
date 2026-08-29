@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>line item abc_Price_per_unit__c = product abc_Unit_Price__c</description>
+        <name>abc_prod_price_equals_itm_price</name>
+        <label>prod-price equals itm-price</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.abc_Price_per_unit__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.abc_Product__r.abc_Unit_Price__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>matching the product line item price to the product actual price and freezing it (preventing retrospective change in past records in line item price when we change the product price in the future)</description>
+    <environments>Default</environments>
+    <interviewLabel>product and line item price match {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>product and line item price match</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>abc_prod_price_equals_itm_price</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>abc_Product__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>abc_Order_Line_Item__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

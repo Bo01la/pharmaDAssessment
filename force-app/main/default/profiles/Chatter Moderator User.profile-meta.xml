@@ -4373,6 +4373,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>abc_Order_Line_Item__c.abc_Price_per_unit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>abc_Order_Line_Item__c.abc_Total_Price__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4428,6 +4433,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>abc_Order__c.abc_Phone__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>abc_Order__c.abc_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4443,9 +4453,23 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>abc_Product__c.abc_Buying_price__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>abc_Product__c.abc_Profit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>abc_Product__c.abc_SKU__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>abc_product_and_line_item_price_match</flow>
+    </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
         <flow>sfdc_default_ReportExport_Protection_Flow</flow>

@@ -1,56 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
-        <fullName>Cairo</fullName>
+        <fullName>Haram</fullName>
         <default>false</default>
-        <label>Cairo</label>
+        <label>Haram</label>
     </customValue>
     <customValue>
-        <fullName>Alexandria</fullName>
+        <fullName>Faisal</fullName>
         <default>false</default>
-        <label>Alexandria</label>
+        <label>Faisal</label>
     </customValue>
     <customValue>
-        <fullName>Giza</fullName>
+        <fullName>Mokattam</fullName>
         <default>false</default>
-        <label>Giza</label>
+        <label>Mokattam</label>
     </customValue>
     <customValue>
-        <fullName>Shubra_El_Kheima</fullName>
+        <fullName>Tagamoo</fullName>
         <default>false</default>
-        <label>Shubra El-Kheima</label>
+        <label>Tagamoo</label>
     </customValue>
     <customValue>
         <fullName>Port_Said</fullName>
         <default>false</default>
+        <isActive>false</isActive>
         <label>Port Said</label>
     </customValue>
     <customValue>
         <fullName>Suez</fullName>
         <default>false</default>
+        <isActive>false</isActive>
         <label>Suez</label>
     </customValue>
     <customValue>
         <fullName>Luxor</fullName>
         <default>false</default>
+        <isActive>false</isActive>
         <label>Luxor</label>
     </customValue>
     <customValue>
-        <fullName>Aswan</fullName>
+        <fullName>Cairo</fullName>
         <default>false</default>
-        <label>Aswan</label>
+        <isActive>false</isActive>
+        <label>Cairo</label>
     </customValue>
     <customValue>
         <fullName>Mansoura</fullName>
         <default>false</default>
+        <isActive>false</isActive>
         <label>Mansoura</label>
     </customValue>
     <customValue>
         <fullName>Tanta</fullName>
         <default>false</default>
+        <isActive>false</isActive>
         <label>Tanta</label>
     </customValue>
-    <description>Global value set for city picklist values used on the abc_Customer__c object.</description>
+    <customValue>
+        <fullName>Aswan</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Aswan</label>
+    </customValue>
+    <customValue>
+        <fullName>Alexandria</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Alexandria</label>
+    </customValue>
+    <customValue>
+        <fullName>Giza</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Giza</label>
+    </customValue>
+    <customValue>
+        <fullName>Shubra_El_Kheima</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Shubra El-Kheima</label>
+    </customValue>
+    <description>Global value set for city picklist values</description>
     <masterLabel>City Values</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

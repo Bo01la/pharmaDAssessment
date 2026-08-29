@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_if_guest_then_fill_first_last_name</fullName>
+    <active>true</active>
+    <description>if type is guest, then first and last name must be filled.</description>
+    <errorConditionFormula>AND( 
+    ISPICKVAL(abc_Client_Type__c, &quot;guest&quot;), 
+    OR( 
+        ISBLANK(TRIM(abd_Guest_first_name__c)), 
+        ISBLANK(TRIM(abc_Guest_Last_Name__c)) 
+    ) 
+)</errorConditionFormula>
+    <errorMessage>must fill first name and last name if type is guest</errorMessage>
+</ValidationRule>

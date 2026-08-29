@@ -8,5 +8,24 @@
         <plural>true</plural>
         <value>Pharmacy Orders</value>
     </caseValues>
+    <layouts>
+        <layout>Order Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Order date can not be in the past --></errorMessage>
+        <name>Order_date_can_not_be_in_the_past</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- must fill first name and last name if type is guest --></errorMessage>
+        <name>abc_if_guest_then_fill_first_last_name</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- customer field must be filled when type value is registered --></errorMessage>
+        <name>abc_if_registered_then_fill_customer</name>
+    </validationRules>
 </CustomObjectTranslation>

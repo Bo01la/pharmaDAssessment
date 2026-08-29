@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_if_registered_then_fill_customer</fullName>
+    <active>true</active>
+    <description>if type is registered, then customer field must be filled.</description>
+    <errorConditionFormula>AND( 
+    ISPICKVAL(abc_Client_Type__c, &quot;registered&quot;), 
+    
+        ISBLANK(TRIM( abc_Customer__c ))
+      
+)</errorConditionFormula>
+    <errorDisplayField>abc_Customer__c</errorDisplayField>
+    <errorMessage>customer field must be filled when type value is registered</errorMessage>
+</ValidationRule>

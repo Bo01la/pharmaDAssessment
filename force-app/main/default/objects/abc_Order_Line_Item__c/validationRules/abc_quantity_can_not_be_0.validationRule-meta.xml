@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc_quantity_can_not_be_0</fullName>
+    <active>true</active>
+    <description>quantity can not be 0</description>
+    <errorConditionFormula>abc_Quantity__c &lt;= 0</errorConditionFormula>
+    <errorDisplayField>abc_Quantity__c</errorDisplayField>
+    <errorMessage>quantity can not be zero</errorMessage>
+</ValidationRule>

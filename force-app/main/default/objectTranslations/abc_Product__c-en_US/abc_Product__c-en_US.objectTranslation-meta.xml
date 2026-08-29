@@ -9,4 +9,8 @@
         <value>Pharmacy Products</value>
     </caseValues>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- the unit price or buying price can not be blank or 0 or less --></errorMessage>
+        <name>abc_price_can_not_be_0_or_less</name>
+    </validationRules>
 </CustomObjectTranslation>

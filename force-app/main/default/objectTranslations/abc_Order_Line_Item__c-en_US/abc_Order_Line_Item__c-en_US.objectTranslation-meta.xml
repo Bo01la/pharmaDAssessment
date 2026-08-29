@@ -8,5 +8,16 @@
         <plural>true</plural>
         <value>Pharmacy Order Line Items</value>
     </caseValues>
+    <layouts>
+        <layout>Order Line Item Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- quantity can not be zero --></errorMessage>
+        <name>abc_quantity_can_not_be_0</name>
+    </validationRules>
 </CustomObjectTranslation>
