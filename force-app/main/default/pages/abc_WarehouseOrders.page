@@ -1,0 +1,216 @@
+<apex:page controller="abc_WarehouseOrdersController" title="Warehouse Orders" sidebar="false" showHeader="true">
+
+    <style>
+        body { font-family: 'Salesforce Sans', Arial, sans-serif; margin: 0; background: #f3f3f3; }
+
+        .page-header {
+            background: #16325c;
+            color: #fff;
+            padding: 16px 24px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .table-container { padding: 24px; }
+
+        table.orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        table.orders-table thead tr {
+            background: #16325c;
+            color: #fff;
+            text-align: left;
+        }
+
+        table.orders-table thead th {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        table.orders-table tbody tr.order-row {
+            cursor: pointer;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.15s;
+        }
+
+        table.orders-table tbody tr.order-row:hover { background: #f0f4ff; }
+
+        table.orders-table tbody td {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        tr.line-items-row { background: #f9fbff; }
+        tr.line-items-row td { padding: 0; }
+
+        table.line-items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.line-items-table thead tr { background: #e8edf5; }
+        table.line-items-table thead th {
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #16325c;
+            text-align: left;
+        }
+
+        table.line-items-table tbody tr { border-bottom: 1px solid #e8edf5; }
+        table.line-items-table tbody td {
+            padding: 8px 20px;
+            font-size: 12px;
+            color: #444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .expand-icon {
+            float: right;
+            font-size: 11px;
+            color: #999;
+            transition: transform 0.2s;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-draft       { background: #e0e0e0; color: #555; }
+        .badge-indelivery  { background: #fff3cd; color: #856404; }
+        .badge-delivered   { background: #d4edda; color: #155724; }
+    </style>
+
+    <div class="page-header">🏭 Warehouse — Order Management</div>
+
+    <div class="table-container">
+        <apex:outputPanel rendered="{!orders.size == 0}">
+            <div class="empty-state">No orders found.</div>
+        </apex:outputPanel>
+
+        <apex:outputPanel rendered="{!orders.size > 0}">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Status</th>
+                        <th>Effective Date</th>
+                        <th>Order Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!orders}" var="w">
+
+                        <!-- Main order row — click to expand -->
+                        <tr class="order-row"
+                            onclick="toggleRow('{!w.order.Id}', this)">
+                            <td>
+                                <span>{!w.icon}</span>
+                                &nbsp;<strong>{!w.order.Name}</strong>
+                                <span class="expand-icon" id="icon-{!w.order.Id}">▼</span>
+                            </td>
+                            <td>
+                                <apex:outputText value="{!w.order.abc_Status__c}"
+                                    rendered="{!w.order.abc_Status__c == 'Draft'}">
+                                    <span class="badge badge-draft">{!w.order.abc_Status__c}</span>
+                                </apex:outputText>
+                                <apex:outputText value="{!w.order.abc_Status__c}"
+                                    rendered="{!w.order.abc_Status__c == 'In delivery'}">
+                                    <span class="badge badge-indelivery">{!w.order.abc_Status__c}</span>
+                                </apex:outputText>
+                                <apex:outputText value="{!w.order.abc_Status__c}"
+                                    rendered="{!w.order.abc_Status__c == 'Delivered'}">
+                                    <span class="badge badge-delivered">{!w.order.abc_Status__c}</span>
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputText value="{0, date, dd/MM/yyyy}">
+                                    <apex:param value="{!w.order.abc_Order_Date__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputText value="{0, number, #,##0.00} EGP">
+                                    <apex:param value="{!w.order.abc_Order_Total__c}" />
+                                </apex:outputText>
+                            </td>
+                        </tr>
+
+                        <!-- Expandable line items row -->
+                        <tr class="line-items-row" id="row-{!w.order.Id}" style="display:none;">
+                            <td colspan="4">
+                                <apex:outputPanel rendered="{!w.lineItems.size == 0}">
+                                    <div style="padding:10px 20px; color:#888; font-size:12px;">
+                                        No products in this order.
+                                    </div>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!w.lineItems.size > 0}">
+                                    <table class="line-items-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Line Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <apex:repeat value="{!w.lineItems}" var="li">
+                                                <tr>
+                                                    <td>{!li.abc_Product__r.Name}</td>
+                                                    <td>{!li.abc_Quantity__c}</td>
+                                                    <td>
+                                                        <apex:outputText value="{0, number, #,##0.00} EGP">
+                                                            <apex:param value="{!li.abc_Price_per_unit__c}" />
+                                                        </apex:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <apex:outputText value="{0, number, #,##0.00} EGP">
+                                                            <apex:param value="{!li.abc_Quantity__c * li.abc_Price_per_unit__c}" />
+                                                        </apex:outputText>
+                                                    </td>
+                                                </tr>
+                                            </apex:repeat>
+                                        </tbody>
+                                    </table>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+
+                    </apex:repeat>
+                </tbody>
+            </table>
+        </apex:outputPanel>
+    </div>
+
+    <script>
+        function toggleRow(orderId, clickedRow) {
+            var detailRow  = document.getElementById('row-' + orderId);
+            var expandIcon = document.getElementById('icon-' + orderId);
+            var isOpen     = detailRow.style.display !== 'none';
+
+            detailRow.style.display  = isOpen ? 'none' : 'table-row';
+            expandIcon.textContent   = isOpen ? '▼' : '▲';
+            expandIcon.style.color   = isOpen ? '#999' : '#16325c';
+        }
+    </script>
+
+</apex:page>
