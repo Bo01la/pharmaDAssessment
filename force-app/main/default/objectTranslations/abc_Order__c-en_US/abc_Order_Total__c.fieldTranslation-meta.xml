@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- SUM of abc_Total_Price__c on Line Items. --></help>
+    <label><!-- Order Total --></label>
+    <name>abc_Order_Total__c</name>
+</CustomFieldTranslation>

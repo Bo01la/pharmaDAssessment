@@ -181,7 +181,23 @@
     <tabs>standard-Case</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-Lead</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <workspaceConfig>
+        <mappings>
+            <tab>abc_Customer__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order_Line_Item__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Product__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

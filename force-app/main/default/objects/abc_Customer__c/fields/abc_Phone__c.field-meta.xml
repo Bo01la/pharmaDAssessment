@@ -4,5 +4,7 @@
     <description>Secondary contact method for the customer.</description>
     <label>Phone</label>
     <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Phone</type>
 </CustomField>

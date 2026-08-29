@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_Product__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
     <label>Product</label>
-    <type>Lookup</type>
     <referenceTo>abc_Product__c</referenceTo>
-    <relationshipLabel>Order Line Items</relationshipLabel>
     <relationshipName>Order_Line_Items</relationshipName>
     <required>true</required>
-    <deleteConstraint>Restrict</deleteConstraint>
     <trackTrending>false</trackTrending>
+    <type>Lookup</type>
 </CustomField>

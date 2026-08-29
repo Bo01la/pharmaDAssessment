@@ -26,6 +26,10 @@
     <tabs>standard-OtherUserProfile</tabs>
     <tabs>standard-Case</tabs>
     <tabs>standard-Forecasting3</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningSales_UtilityBar</utilityBar>
 </CustomApplication>

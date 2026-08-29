@@ -9,9 +9,25 @@
     <navType>Console</navType>
     <tabs>standard-Product2</tabs>
     <tabs>standard-Pricebook2</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>RevenueCloudConsole_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>abc_Customer__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order_Line_Item__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Product__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Pricebook2</tab>
         </mappings>

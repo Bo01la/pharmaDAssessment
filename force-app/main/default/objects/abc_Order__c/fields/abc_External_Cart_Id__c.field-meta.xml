@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_External_Cart_Id__c</fullName>
-    <label>External Cart ID</label>
-    <type>Text</type>
-    <length>255</length>
-    <externalId>true</externalId>
-    <unique>true</unique>
     <caseSensitive>false</caseSensitive>
-    <required>false</required>
-    <trackTrending>false</trackTrending>
+    <externalId>true</externalId>
     <inlineHelpText>Guarantees API idempotency during retry requests from the web app.</inlineHelpText>
+    <label>External Cart ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
 </CustomField>

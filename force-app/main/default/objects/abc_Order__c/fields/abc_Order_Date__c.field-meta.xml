@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_Order_Date__c</fullName>
+    <inlineHelpText>Required to calculate the &quot;&gt; 1 year old&quot; Batch class logic.</inlineHelpText>
     <label>Order Date</label>
-    <type>Date</type>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <inlineHelpText>Required to calculate the "> 1 year old" Batch class logic.</inlineHelpText>
+    <type>Date</type>
 </CustomField>

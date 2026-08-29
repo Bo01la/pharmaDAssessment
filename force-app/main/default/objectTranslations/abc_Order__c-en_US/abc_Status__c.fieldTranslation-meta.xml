@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>abc_Status__c</name>
+    <picklistValues>
+        <masterLabel>Delivered</masterLabel>
+        <translation><!-- Delivered --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Draft</masterLabel>
+        <translation><!-- Draft --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>In delivery</masterLabel>
+        <translation><!-- In delivery --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

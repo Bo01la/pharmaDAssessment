@@ -13,4 +13,8 @@
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
 </CustomApplication>

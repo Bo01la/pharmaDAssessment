@@ -10,8 +10,24 @@
     <tabs>standard-JourneyHome</tabs>
     <tabs>standard-SalesforceJourney</tabs>
     <tabs>standard-JourneyMap</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>abc_Customer__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order_Line_Item__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Order__c</tab>
+        </mappings>
+        <mappings>
+            <tab>abc_Product__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-JourneyHome</tab>
         </mappings>

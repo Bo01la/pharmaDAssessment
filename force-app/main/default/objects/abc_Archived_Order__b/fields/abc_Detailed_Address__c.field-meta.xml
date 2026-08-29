@@ -4,7 +4,6 @@
     <description>Detailed address of the customer stored as a long text area in the archive.</description>
     <label>Detailed Address</label>
     <length>32768</length>
-    <required>false</required>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

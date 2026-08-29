@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Hardcoded snapshot of price at time of purchase. Displayed on VF page. --></help>
+    <label><!-- Unit Price --></label>
+    <name>abc_Unit_Price__c</name>
+</CustomFieldTranslation>

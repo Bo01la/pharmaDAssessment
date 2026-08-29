@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- PharmaD --></label>
+        <name>abc_PharmaD</name>
+    </customApplications>
     <flowDefinitions>
         <flows/>
         <fullName>sfdc_default_ReportExport_Protection_Flow</fullName>

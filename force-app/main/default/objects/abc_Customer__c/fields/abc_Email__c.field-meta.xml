@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_Email__c</fullName>
+    <caseSensitive>true</caseSensitive>
     <description>Unique identifier for the REST API to check if an account exists. Marked as External ID and Unique (Case-Insensitive) to enable single-DML upsert and prevent duplicate customer creation.</description>
     <externalId>true</externalId>
     <label>Email</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Email</type>
     <unique>true</unique>
 </CustomField>

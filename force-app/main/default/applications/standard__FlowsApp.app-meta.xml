@@ -15,6 +15,10 @@
     <tabs>standard-EngagementSignal</tabs>
     <tabs>standard-ActionHub</tabs>
     <tabs>standard-FlowLogs</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>FlowsApp_UtilityBar</utilityBar>
 </CustomApplication>

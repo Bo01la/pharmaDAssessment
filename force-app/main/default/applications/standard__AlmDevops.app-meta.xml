@@ -13,5 +13,9 @@
     <tabs>standard-DevopsPipeline</tabs>
     <tabs>standard-WorkItem</tabs>
     <tabs>standard-DevopsActivityLog</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

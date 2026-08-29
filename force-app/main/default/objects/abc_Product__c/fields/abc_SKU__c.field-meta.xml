@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_SKU__c</fullName>
-    <label>Product SKU</label>
-    <type>Text</type>
-    <length>50</length>
-    <externalId>true</externalId>
-    <unique>true</unique>
     <caseSensitive>false</caseSensitive>
+    <externalId>true</externalId>
+    <inlineHelpText>External ID, Unique. Allows Ionic app to pass real-world product codes instead of Salesforce IDs.</inlineHelpText>
+    <label>Product SKU</label>
+    <length>50</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <inlineHelpText>External ID, Unique. Allows Ionic app to pass real-world product codes instead of Salesforce IDs.</inlineHelpText>
+    <type>Text</type>
+    <unique>true</unique>
 </CustomField>

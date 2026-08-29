@@ -14,5 +14,9 @@
     <tabs>standard-WorkType</tabs>
     <tabs>standard-OperatingHours</tabs>
     <tabs>standard-ServiceAppointment</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

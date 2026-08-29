@@ -2,11 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>abc_Order__c</fullName>
     <label>Order</label>
-    <type>MasterDetail</type>
     <referenceTo>abc_Order__c</referenceTo>
-    <relationshipLabel>Order Line Items</relationshipLabel>
     <relationshipName>Order_Line_Items</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
 </CustomField>

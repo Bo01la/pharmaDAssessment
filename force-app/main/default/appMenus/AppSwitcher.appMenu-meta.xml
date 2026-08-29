@@ -128,4 +128,8 @@
         <name>standard__AIWorkbench</name>
         <type>CustomApplication</type>
     </appMenuItems>
+    <appMenuItems>
+        <name>abc_PharmaD</name>
+        <type>CustomApplication</type>
+    </appMenuItems>
 </AppMenu>

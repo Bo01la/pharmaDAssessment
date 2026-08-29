@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- External ID, Unique. Allows Ionic app to pass real-world product codes instead of Salesforce IDs. --></help>
+    <label><!-- Product SKU --></label>
+    <name>abc_SKU__c</name>
+</CustomFieldTranslation>

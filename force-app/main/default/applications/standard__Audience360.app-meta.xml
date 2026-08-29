@@ -38,5 +38,9 @@
     <tabs>standard-SemanticContext</tabs>
     <tabs>standard-KnowledgeSpace</tabs>
     <tabs>standard-DataCleanRoom</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

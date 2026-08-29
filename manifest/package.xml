@@ -509,6 +509,11 @@
 		<members>WorkTypeGroup</members>
 		<members>WorkTypeGroupMember</members>
 		<members>WorkflowSLAAction</members>
+		<members>abc_Archived_Order__b</members>
+		<members>abc_Customer__c</members>
+		<members>abc_Order_Line_Item__c</members>
+		<members>abc_Order__c</members>
+		<members>abc_Product__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>

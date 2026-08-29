@@ -8,5 +8,9 @@
     <label>Data Manager</label>
     <navType>Standard</navType>
     <tabs>standard-AnalyticsDataManager</tabs>
+    <tabs>abc_Customer__c</tabs>
+    <tabs>abc_Order__c</tabs>
+    <tabs>abc_Order_Line_Item__c</tabs>
+    <tabs>abc_Product__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
