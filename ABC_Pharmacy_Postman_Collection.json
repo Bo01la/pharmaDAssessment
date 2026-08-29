@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "ABC Pharmacy — Salesforce REST API",
+    "_postman_id": "abc-pharmacy-api-collection",
+    "description": "REST API endpoints for the ABC Pharmacy Salesforce project.\n\nSetup:\n1. Set the `baseUrl` variable to your org's instance URL.\n2. Run the 'Get Access Token' request — it auto-populates the token.\n\nOrg Instance URL: https://orgfarm-7e74891727-dev-ed.develop.my.salesforce.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://orgfarm-7e74891727-dev-ed.develop.my.salesforce.com",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string",
+      "description": "Populated automatically by the Auth request"
+    }
+  ],
+  "item": [
+    {
+      "name": "0 — Auth",
+      "item": [
+        {
+          "name": "Get Access Token (Username-Password Flow)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.access_token) {",
+                  "    pm.collectionVariables.set('accessToken', json.access_token);",
+                  "    pm.collectionVariables.set('baseUrl', json.instance_url);",
+                  "    console.log('Access token set. Instance URL:', json.instance_url);",
+                  "} else {",
+                  "    console.error('Auth failed:', JSON.stringify(json));",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "grant_type", "value": "password", "type": "text" },
+                { "key": "client_id", "value": "PlatformCLI", "type": "text" },
+                { "key": "client_secret", "value": "", "type": "text" },
+                { "key": "username", "value": "assessments@cloudastick.com.pharmaD", "type": "text" },
+                { "key": "password", "value": "<password+securitytoken>", "type": "text" }
+              ]
+            },
+            "url": {
+              "raw": "https://login.salesforce.com/services/oauth2/token",
+              "protocol": "https",
+              "host": ["login", "salesforce", "com"],
+              "path": ["services", "oauth2", "token"]
+            },
+            "description": "Authenticates via Salesforce OAuth2 username-password flow.\nThe test script auto-stores the access token and instance URL into collection variables.\n\nReplace <password+securitytoken> with the user's password concatenated with their security token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 — Products",
+      "item": [
+        {
+          "name": "GET /abc/products — Retrieve Product List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/services/apexrest/abc/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", "apexrest", "abc", "products"]
+            },
+            "description": "Returns all Pharmacy Products that have stock available (abc_Available_Quantity__c > 0), sorted alphabetically by name.\n\n**Authentication:** Bearer token required.\n\n**Success Response — 200 OK:**\n```json\n{\n  \"success\": true,\n  \"count\": 2,\n  \"data\": [\n    {\n      \"id\": \"a01bm000001XxxxAAA\",\n      \"name\": \"Amoxicillin 250mg\",\n      \"sku\": \"SKU-AMOX-250\",\n      \"unitPrice\": 35.0,\n      \"availableQuantity\": 100\n    },\n    {\n      \"id\": \"a01bm000001XyyyAAA\",\n      \"name\": \"Paracetamol 500mg\",\n      \"sku\": \"SKU-PARA-500\",\n      \"unitPrice\": 15.0,\n      \"availableQuantity\": 200\n    }\n  ]\n}\n```\n\n**Error — 500 Internal Server Error:**\n```json\n{ \"success\": false, \"error\": \"<message>\" }\n```"
+          },
+          "response": [
+            {
+              "name": "200 OK — Products with stock",
+              "originalRequest": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                "url": { "raw": "{{baseUrl}}/services/apexrest/abc/products" }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"success\": true,\n  \"count\": 2,\n  \"data\": [\n    {\n      \"id\": \"a01bm000001XxxxAAA\",\n      \"name\": \"Amoxicillin 250mg\",\n      \"sku\": \"SKU-AMOX-250\",\n      \"unitPrice\": 35.0,\n      \"availableQuantity\": 100\n    },\n    {\n      \"id\": \"a01bm000001XyyyAAA\",\n      \"name\": \"Paracetamol 500mg\",\n      \"sku\": \"SKU-PARA-500\",\n      \"unitPrice\": 15.0,\n      \"availableQuantity\": 200\n    }\n  ]\n}"
+            },
+            {
+              "name": "200 OK — No products in stock",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"count\": 0,\n  \"data\": []\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2 — Cart",
+      "item": [
+        {
+          "name": "POST /abc/cart — Create Cart (Registered Customer, by SF ID)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalCartId\": \"CART-IONIC-001\",\n  \"customerId\": \"<abc_Customer__c Salesforce ID>\",\n  \"governorate\": \"Cairo\",\n  \"city\": \"Nasr City\",\n  \"email\": \"customer@example.com\",\n  \"phone\": \"01001234567\",\n  \"detailedAddress\": \"123 Tahrir Street, Apt 5\",\n  \"items\": [\n    { \"productId\": \"<abc_Product__c Salesforce ID>\", \"quantity\": 2 },\n    { \"productId\": \"<abc_Product__c Salesforce ID 2>\", \"quantity\": 1 }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/apexrest/abc/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", "apexrest", "abc", "cart"]
+            },
+            "description": "Creates a Pharmacy Order with line items for a registered customer.\n\n**Request Fields:**\n| Field | Type | Required | Description |\n|---|---|---|---|\n| externalCartId | String | No | Unique cart ID from Ionic app — enables idempotency |\n| customerId | String | No | Salesforce record ID of abc_Customer__c |\n| guestFirstName | String | No | Guest first name (if no customerId) |\n| guestLastName | String | No | Guest last name |\n| governorate | String | No | Must match a valid abc_Governorate_values picklist entry |\n| city | String | No | Must match a valid abc_City_values picklist entry |\n| email | String | No | Order contact email |\n| phone | String | No | Numeric phone digits (stored as number in org) |\n| detailedAddress | String | No | Full address text |\n| items | Array | **Yes** | At least one item required |\n| items[].productId | String | **Yes** | Salesforce ID or abc_SKU__c value |\n| items[].quantity | Integer | **Yes** | Must be > 0 |\n\n**Idempotency:** Sending the same `externalCartId` twice returns HTTP 200 with the existing order.\n\n**Success — 201 Created:**\n```json\n{ \"success\": true, \"orderId\": \"a02bm000001ZxxxAAA\", \"orderNumber\": \"ORD-0001\" }\n```\n\n**Idempotent — 200 OK:**\n```json\n{ \"success\": true, \"message\": \"Cart already exists.\", \"orderId\": \"...\", \"orderNumber\": \"ORD-0001\" }\n```\n\n**Error Responses:**\n- `400` — Empty/null items, blank productId, zero quantity, invalid customerId format\n- `404` — Product not found by ID or SKU\n- `422` — Requested quantity exceeds available stock\n- `500` — Unexpected server error (logged to abc_API_Log__c)"
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"orderId\": \"a02bm000001ZxxxAAA\",\n  \"orderNumber\": \"ORD-0001\"\n}"
+            },
+            {
+              "name": "200 OK — Idempotent (cart already exists)",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Cart already exists.\",\n  \"orderId\": \"a02bm000001ZxxxAAA\",\n  \"orderNumber\": \"ORD-0001\"\n}"
+            },
+            {
+              "name": "400 Bad Request — No items",
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"error\": \"Cart must contain at least one item.\"\n}"
+            },
+            {
+              "name": "404 Not Found — Product not found",
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"error\": \"Product not found: SKU-DOES-NOT-EXIST\"\n}"
+            },
+            {
+              "name": "422 Unprocessable Entity — Insufficient stock",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"error\": \"Insufficient stock for product: Paracetamol 500mg (available: 200, requested: 99999)\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /abc/cart — Create Cart (Guest, by SKU)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalCartId\": \"CART-IONIC-GUEST-001\",\n  \"guestFirstName\": \"Ahmed\",\n  \"guestLastName\": \"Ali\",\n  \"governorate\": \"Giza\",\n  \"city\": \"6th of October City\",\n  \"email\": \"ahmed.ali@example.com\",\n  \"phone\": \"01112345678\",\n  \"detailedAddress\": \"Building 7, Street 9, District 3\",\n  \"items\": [\n    { \"productId\": \"SKU-PARA-500\", \"quantity\": 3 },\n    { \"productId\": \"SKU-AMOX-250\", \"quantity\": 1 }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/apexrest/abc/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", "apexrest", "abc", "cart"]
+            },
+            "description": "Creates an order for a guest user using product SKU codes. No `customerId` needed."
+          }
+        }
+      ]
+    }
+  ]
+}
