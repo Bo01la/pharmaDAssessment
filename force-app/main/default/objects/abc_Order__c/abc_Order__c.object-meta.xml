@@ -167,7 +167,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Pharmacy Orders</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <listViewButtons>abc_Warehouse_Orders_List</listViewButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
