@@ -16,6 +16,7 @@
 4. [Salesforce Features Used](#4-salesforce-features-used)
 5. [API Reference](#5-api-reference)
 6. [Org Access](#6-org-access)
+7. [Automation, Validation Rules & Custom Notifications](#7-automation-validation-rules--custom-notifications)
 
 ---
 
@@ -392,6 +393,82 @@ Content-Type: application/json
 |---|---|
 | Profile | `warehouse` |
 | Visualforce Page URL | `<instance-url>/apex/abc_WarehouseOrders` |
+
+---
+
+## 7. Automation, Validation Rules & Custom Notifications
+
+This section catalogs the declarative automation layer of the org — the Record-Triggered Flows, Validation Rules, and Custom Notification driving business logic that sits outside the Apex components described in Section 3.
+
+### 7.1 Record-Triggered Flows
+
+| Flow | Object | Trigger Timing | Purpose |
+|---|---|---|---|
+| `abc_product_and_line_item_price_match` | `abc_Order_Line_Item__c` | Before-Save, on Create | Freezes the line item's unit price from the linked product at creation time, so historical orders are unaffected by later product price changes. Full rationale in Decision 4 of the PDF's Section 2.3. |
+| `abc_deduct_product_quantity_on_delivery` | `abc_Order__c` | After-Save, on Update | Deducts each line item's quantity from the matching product's Available Quantity the moment an order's status becomes "In delivery," mimicking stock leaving the warehouse, and alerts the warehouse team when a product's remaining stock drops to 1 or less. |
+
+**Flow Detail — `abc_product_and_line_item_price_match`**
+
+| | |
+|---|---|
+| Trigger / Timing | `abc_Order_Line_Item__c` · Before-Save · Create |
+| Entry Filter | `abc_Product__c` is not null |
+| Action | Assigns `$Record.abc_Price_per_unit__c` = `$Record.abc_Product__r.abc_Unit_Price__c` |
+
+**Flow Detail — `abc_deduct_product_quantity_on_delivery`**
+
+| | |
+|---|---|
+| Trigger / Timing | `abc_Order__c` · After-Save · Update |
+| Entry Filter | `abc_Status__c` = 'In delivery', only when this is a new transition into that value |
+
+> **Decision:** Entry criteria uses the native "Only when a record is updated to meet the condition requirements" trigger option (`doesRequireRecordChangedToMeetCriteria`) rather than a manual decision element comparing against `$Record__Prior`.
+>
+> **Why this choice:** This is the platform-native way to express "fire only on this transition." It prevents the flow from re-running (and re-deducting stock) every time an order that is already "In delivery" is edited for an unrelated reason, without an extra visible decision node cluttering the canvas.
+>
+> **Why after-save, not before-save:** Before-save (fast field update) flows may only write to the triggering record itself. This flow must update a different object — `abc_Product__c` — so an after-save context is architecturally required, not merely a style preference.
+
+Logic walkthrough:
+
+1. **Get Records** — all `abc_Order_Line_Item__c` for the order.
+2. **Get Records** — the `abc_low_stock_alert` Custom Notification Type, and every active User on the `warehouse` profile (via a Profile lookup, then `User.ProfileId`) — fetched once per order, not per line item.
+3. **Loop** — for each line item: get its product, subtract the line item quantity from `abc_Available_Quantity__c`, and queue the product into a collection.
+4. **Decision** — if the product's new quantity is ≤ 1, call **Send Custom Notification** to the warehouse recipient list.
+5. **Update Records** — single bulk DML for every product touched by the order, run once after the loop, not once per iteration.
+
+### 7.2 Validation Rules
+
+Five active validation rules enforce data integrity across three custom objects, guarding against invalid pricing, quantities, dates, and incomplete guest/registered customer data.
+
+| Object | Rule | Condition | Error Message |
+|---|---|---|---|
+| `abc_Product__c` | `abc_price_can_not_be_0_or_less` | Unit Price or Buying Price is blank or ≤ 0 | "the unit price or buying price can not be blank or 0 or less" |
+| `abc_Order_Line_Item__c` | `abc_quantity_can_not_be_0` | `abc_Quantity__c` ≤ 0 | "quantity can not be zero" |
+| `abc_Order__c` | `Order_date_can_not_be_in_the_past` | `abc_Order_Date__c` < TODAY() | "Order date can not be in the past" |
+| `abc_Order__c` | `abc_if_registered_then_fill_customer` | Client Type = "registered" AND `abc_Customer__c` is blank | "customer field must be filled when type value is registered" |
+| `abc_Order__c` | `abc_if_guest_then_fill_first_last_name` | Client Type = "guest" AND (First Name or Last Name is blank) | "must fill first name and last name if type is guest" |
+
+**Why this choice:** Declarative validation rules keep these business constraints admin-maintainable and visible in Setup, without requiring an Apex trigger for checks that don't need cross-object logic — consistent with the "flow/declarative first" approach used for price freezing (Decision 4, Section 2.3).
+
+### 7.3 Custom Notifications
+
+| | |
+|---|---|
+| Notification Type | `abc_low_stock_alert` |
+| Label | Low Stock Alert |
+| Fired By | `abc_deduct_product_quantity_on_delivery` |
+| Trigger Condition | A product's `abc_Available_Quantity__c` is ≤ 1 immediately after a delivery-triggered deduction |
+| Recipients | Every active User with the `warehouse` profile, resolved dynamically at run time — never a hardcoded User Id |
+| Click-Through | Deep-links to the affected `abc_Product__c` record |
+| Channels | Desktop and Mobile enabled |
+
+**Message Template**
+
+```
+{ProductName} is down to {AvailableQuantity} unit(s) in stock. Reorder soon.
+```
+
+**Why this choice:** A Custom Notification appears instantly in the Salesforce bell icon and on mobile for every warehouse user, with no email-relay configuration, and its `targetId` deep-links directly to the specific product — something a declarative workflow email alert cannot do. Recipients are resolved by profile membership at run time (Profile → User lookup) rather than a hardcoded User Id, so the alert keeps working if warehouse staffing changes.
 
 ---
 
