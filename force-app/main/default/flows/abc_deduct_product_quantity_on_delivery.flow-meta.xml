@@ -9,7 +9,7 @@
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
-            <targetReference>abc_Loop_Line_Items</targetReference>
+            <targetReference>abc_Loop_Find_Matching_Product</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -39,7 +39,7 @@
         <inputParameters>
             <name>targetId</name>
             <value>
-                <elementReference>abc_Get_Product.Id</elementReference>
+                <elementReference>abc_Loop_Find_Matching_Product.Id</elementReference>
             </value>
         </inputParameters>
         <nameSegment>customNotificationAction</nameSegment>
@@ -64,13 +64,30 @@
         </connector>
     </assignments>
     <assignments>
-        <description>Subtracts the line item quantity from the product&apos;s available stock, then queues the product for the bulk update after the loop.</description>
+        <description>Collects the Product Id referenced by the current line item so every product this order needs can be bulk-queried once, before the main processing loop runs.</description>
+        <name>abc_collect_product_id</name>
+        <label>collect product id</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>abc_col_product_ids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>abc_Loop_Collect_Product_Ids.abc_Product__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>abc_Loop_Collect_Product_Ids</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Subtracts the line item quantity from the matched product&apos;s available stock, then queues the product for the bulk update after the loop.</description>
         <name>abc_decrease_available_quantity</name>
         <label>decrease available quantity</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
-            <assignToReference>abc_Get_Product.abc_Available_Quantity__c</assignToReference>
+            <assignToReference>abc_Loop_Find_Matching_Product.abc_Available_Quantity__c</assignToReference>
             <operator>Subtract</operator>
             <value>
                 <elementReference>abc_Loop_Line_Items.abc_Quantity__c</elementReference>
@@ -80,7 +97,7 @@
             <assignToReference>abc_col_products_to_update</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>abc_Get_Product</elementReference>
+                <elementReference>abc_Loop_Find_Matching_Product</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -88,20 +105,20 @@
         </connector>
     </assignments>
     <decisions>
-        <description>Fires the warehouse notification only when the product&apos;s remaining stock is at or below the reorder threshold of 1.</description>
+        <description>Fires the warehouse notification only when the matched product&apos;s remaining stock is at or below the reorder threshold of 1.</description>
         <name>abc_is_stock_low</name>
         <label>is stock low (&lt;= 1)?</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>abc_Loop_Line_Items</targetReference>
+            <targetReference>abc_Loop_Find_Matching_Product</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>abc_yes_stock_low</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>abc_Get_Product.abc_Available_Quantity__c</leftValueReference>
+                <leftValueReference>abc_Loop_Find_Matching_Product.abc_Available_Quantity__c</leftValueReference>
                 <operator>LessThanOrEqualTo</operator>
                 <rightValue>
                     <numberValue>1.0</numberValue>
@@ -113,7 +130,33 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>When an Order&apos;s status becomes &apos;In delivery&apos;, deduct each line item&apos;s quantity from the matching product&apos;s Available Quantity (mimicking warehouse stock leaving on delivery) and alert the warehouse team when a product&apos;s remaining stock drops to 1 or less.</description>
+    <decisions>
+        <description>Checks whether the product currently being scanned in the pre-fetched products collection is the one referenced by the current line item. No SOQL runs here — it&apos;s a comparison against records already queried in bulk before this loop started.</description>
+        <name>abc_Is_Matching_Product</name>
+        <label>is matching product?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>abc_Loop_Find_Matching_Product</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>abc_yes_matching_product</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>abc_Loop_Find_Matching_Product.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>abc_Loop_Line_Items.abc_Product__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>abc_decrease_available_quantity</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>When an Order&apos;s status becomes &apos;In delivery&apos;, deduct each line item&apos;s quantity from the matching product&apos;s Available Quantity (mimicking warehouse stock leaving on delivery) and alert the warehouse team when a product&apos;s remaining stock drops to 1 or less. Every product referenced by the order is bulk-queried once before the loop starts, so no Get Records runs inside the per-line-item loop.</description>
     <environments>Default</environments>
     <interviewLabel>deduct product quantity on delivery {!$Flow.CurrentDateTime}</interviewLabel>
     <label>deduct product quantity on delivery</label>
@@ -125,7 +168,7 @@
         <collectionReference>abc_Get_Order_Line_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>abc_Get_Product</targetReference>
+            <targetReference>abc_Loop_Find_Matching_Product</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>abc_Update_Products</targetReference>
@@ -140,6 +183,36 @@
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>abc_collect_warehouse_user_id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>abc_Loop_Collect_Product_Ids</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Single pass over the line items to gather every referenced Product Id, so the products can be queried once in bulk instead of once per line item.</description>
+        <name>abc_Loop_Collect_Product_Ids</name>
+        <label>Loop Through Line Items (Collect Product Ids)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>abc_Get_Order_Line_Items</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>abc_collect_product_id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>abc_Get_Products</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Searches the products collection that was already fetched in bulk before this loop started, looking for the product referenced by the current line item. No SOQL runs inside this loop.</description>
+        <name>abc_Loop_Find_Matching_Product</name>
+        <label>Loop Through Fetched Products (Find Match)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>abc_Get_Products</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>abc_Is_Matching_Product</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>abc_Loop_Line_Items</targetReference>
@@ -209,24 +282,24 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <description>The product referenced by the current line item, fetched so its Available Quantity can be reduced.</description>
-        <name>abc_Get_Product</name>
-        <label>Get Product</label>
+        <description>Every distinct product referenced by this order&apos;s line items, fetched once in a single bulk query before the main processing loop starts. Replaces the old per-line-item Get Records call that used to run inside the loop.</description>
+        <name>abc_Get_Products</name>
+        <label>Get Products</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>abc_decrease_available_quantity</targetReference>
+            <targetReference>abc_Loop_Line_Items</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>abc_Loop_Line_Items.abc_Product__c</elementReference>
+                <elementReference>abc_col_product_ids</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>abc_Product__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
@@ -312,8 +385,15 @@
     <textTemplates>
         <name>abc_low_stock_notification_body</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>{!abc_Get_Product.Name} is down to {!abc_Get_Product.abc_Available_Quantity__c} unit(s) in stock. Reorder soon.</text>
+        <text>{!abc_Loop_Find_Matching_Product.Name} is down to {!abc_Loop_Find_Matching_Product.abc_Available_Quantity__c} unit(s) in stock. Reorder soon.</text>
     </textTemplates>
+    <variables>
+        <name>abc_col_product_ids</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>abc_col_products_to_update</name>
         <dataType>SObject</dataType>

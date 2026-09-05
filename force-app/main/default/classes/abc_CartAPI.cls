@@ -179,12 +179,8 @@ global with sharing class abc_CartAPI {
                 abc_Email__c            = cartReq.email,
                 abc_Detailed_Address__c = cartReq.detailedAddress
             );
-            // abc_Phone__c is a Number field in the org — strip non-numeric chars before assigning
             if (String.isNotBlank(cartReq.phone)) {
-                String digitsOnly = cartReq.phone.replaceAll('[^0-9]', '');
-                if (String.isNotBlank(digitsOnly)) {
-                    order.abc_Phone__c = Decimal.valueOf(digitsOnly);
-                }
+                order.abc_Phone__c = cartReq.phone;
             }
             if (String.isNotBlank(cartReq.customerId)) {
                 try {

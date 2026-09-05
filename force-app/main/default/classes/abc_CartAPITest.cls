@@ -9,6 +9,7 @@ private class abc_CartAPITest {
             Name                      = 'Ibuprofen 400mg',
             abc_SKU__c                = 'SKU-IBU-400',
             abc_Unit_Price__c         = 20.00,
+            abc_Buying_price__c       = 15.00,
             abc_Available_Quantity__c = 50
         );
     }
@@ -58,6 +59,8 @@ private class abc_CartAPITest {
     @IsTest
     static void testCreateCart_bySKU_success() {
         setUpRequest(new Map<String, Object>{
+            'guestFirstName' => 'Ahmed',
+            'guestLastName'  => 'Ali',
             'items' => new List<Object>{
                 new Map<String, Object>{ 'productId' => 'SKU-IBU-400', 'quantity' => 1 }
             }
@@ -76,6 +79,8 @@ private class abc_CartAPITest {
         abc_Product__c prod = [SELECT Id FROM abc_Product__c LIMIT 1];
         Map<String, Object> requestBody = new Map<String, Object>{
             'externalCartId' => 'CART-DUPE-001',
+            'guestFirstName' => 'Ahmed',
+            'guestLastName'  => 'Ali',
             'items'          => new List<Object>{
                 new Map<String, Object>{ 'productId' => prod.Id, 'quantity' => 1 }
             }
