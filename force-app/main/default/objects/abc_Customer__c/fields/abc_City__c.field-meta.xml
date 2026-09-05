@@ -8,7 +8,24 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>abc_Governorate__c</controllingField>
         <restricted>true</restricted>
         <valueSetName>abc_City_values</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Cairo</controllingFieldValue>
+            <valueName>Mokattam</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cairo</controllingFieldValue>
+            <valueName>Tagamoo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Giza</controllingFieldValue>
+            <valueName>Haram</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Giza</controllingFieldValue>
+            <valueName>Faisal</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

@@ -46,7 +46,7 @@
                 <field>abc_Detailed_Address__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>abc_Client_Type__c</field>
             </layoutItems>
             <layoutItems>

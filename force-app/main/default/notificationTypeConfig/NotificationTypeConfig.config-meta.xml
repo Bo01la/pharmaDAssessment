@@ -486,6 +486,13 @@
     <notificationTypeSettings>
         <notificationChannels>
             <desktopEnabled>true</desktopEnabled>
+            <mobileEnabled>true</mobileEnabled>
+        </notificationChannels>
+        <notificationType>abc_low_stock_alert</notificationType>
+    </notificationTypeSettings>
+    <notificationTypeSettings>
+        <notificationChannels>
+            <desktopEnabled>true</desktopEnabled>
             <mobileEnabled>false</mobileEnabled>
         </notificationChannels>
         <notificationType>enablement_coaching_feedback_ready</notificationType>

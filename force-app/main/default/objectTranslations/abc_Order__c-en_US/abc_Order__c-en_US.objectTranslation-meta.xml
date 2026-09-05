@@ -28,4 +28,12 @@
         <errorMessage><!-- customer field must be filled when type value is registered --></errorMessage>
         <name>abc_if_registered_then_fill_customer</name>
     </validationRules>
+    <webLinks>
+        <label><!-- abc_Warehouse_Orders_List --></label>
+        <name>abc_Warehouse_Orders_List</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- abc_Warehouse_Orders_Page --></label>
+        <name>abc_Warehouse_Orders_Page</name>
+    </webLinks>
 </CustomObjectTranslation>

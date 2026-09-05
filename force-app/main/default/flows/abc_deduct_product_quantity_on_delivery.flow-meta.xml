@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>67.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <actionCalls>
         <description>Alerts every active warehouse-profile user that a product just dropped to 1 unit or less in stock.</description>
         <name>abc_Send_Low_Stock_Notification</name>
         <label>Send Low Stock Notification</label>
-        <locationX>352</locationX>
-        <locationY>647</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
             <targetReference>abc_Loop_Line_Items</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>customNotifTypeId</name>
             <value>
@@ -43,13 +42,16 @@
                 <elementReference>abc_Get_Product.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <description>Appends the current warehouse user&apos;s Id to the recipient list used by the low-stock notification action.</description>
         <name>abc_collect_warehouse_user_id</name>
         <label>collect warehouse user id</label>
-        <locationX>352</locationX>
-        <locationY>215</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>abc_col_warehouse_user_ids</assignToReference>
             <operator>Add</operator>
@@ -65,8 +67,8 @@
         <description>Subtracts the line item quantity from the product&apos;s available stock, then queues the product for the bulk update after the loop.</description>
         <name>abc_decrease_available_quantity</name>
         <label>decrease available quantity</label>
-        <locationX>352</locationX>
-        <locationY>431</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>abc_Get_Product.abc_Available_Quantity__c</assignToReference>
             <operator>Subtract</operator>
@@ -89,8 +91,8 @@
         <description>Fires the warehouse notification only when the product&apos;s remaining stock is at or below the reorder threshold of 1.</description>
         <name>abc_is_stock_low</name>
         <label>is stock low (&lt;= 1)?</label>
-        <locationX>352</locationX>
-        <locationY>539</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>abc_Loop_Line_Items</targetReference>
         </defaultConnector>
@@ -116,24 +118,10 @@
     <interviewLabel>deduct product quantity on delivery {!$Flow.CurrentDateTime}</interviewLabel>
     <label>deduct product quantity on delivery</label>
     <loops>
-        <name>abc_Loop_Warehouse_Users</name>
-        <label>Loop Through Warehouse Users</label>
-        <locationX>352</locationX>
-        <locationY>215</locationY>
-        <collectionReference>abc_Get_Warehouse_Users</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>abc_collect_warehouse_user_id</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>abc_Loop_Line_Items</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
         <name>abc_Loop_Line_Items</name>
         <label>Loop Through Line Items</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <collectionReference>abc_Get_Order_Line_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -141,6 +129,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>abc_Update_Products</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>abc_Loop_Warehouse_Users</name>
+        <label>Loop Through Warehouse Users</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>abc_Get_Warehouse_Users</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>abc_collect_warehouse_user_id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>abc_Loop_Line_Items</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -163,33 +165,11 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <description>All line items belonging to the order that just entered &apos;In delivery&apos;.</description>
-        <name>abc_Get_Order_Line_Items</name>
-        <label>Get Order Line Items</label>
-        <locationX>176</locationX>
-        <locationY>107</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>abc_Get_Notification_Type</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>abc_Order__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>abc_Order_Line_Item__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <description>The org&apos;s Low Stock Alert custom notification type, looked up by developer name so the flow doesn&apos;t hardcode an org-specific record Id.</description>
         <name>abc_Get_Notification_Type</name>
         <label>Get Low Stock Notification Type</label>
-        <locationX>176</locationX>
-        <locationY>215</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>abc_Get_Warehouse_Profile</targetReference>
@@ -207,11 +187,55 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>All line items belonging to the order that just entered &apos;In delivery&apos;.</description>
+        <name>abc_Get_Order_Line_Items</name>
+        <label>Get Order Line Items</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>abc_Get_Notification_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>abc_Order__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>abc_Order_Line_Item__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>The product referenced by the current line item, fetched so its Available Quantity can be reduced.</description>
+        <name>abc_Get_Product</name>
+        <label>Get Product</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>abc_decrease_available_quantity</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>abc_Loop_Line_Items.abc_Product__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>abc_Product__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>The warehouse profile&apos;s Id, looked up so the User query below can filter on the plain ProfileId field instead of a cross-object path.</description>
         <name>abc_Get_Warehouse_Profile</name>
         <label>Get Warehouse Profile</label>
-        <locationX>352</locationX>
-        <locationY>107</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>abc_Get_Warehouse_Users</targetReference>
@@ -232,8 +256,8 @@
         <description>Every active user with the warehouse profile, fetched once per order (not per line item) since the recipient list doesn&apos;t change during the loop.</description>
         <name>abc_Get_Warehouse_Users</name>
         <label>Get Warehouse Users</label>
-        <locationX>352</locationX>
-        <locationY>107</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>abc_Loop_Warehouse_Users</targetReference>
@@ -257,38 +281,16 @@
         <object>User</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <description>The product referenced by the current line item, fetched so its Available Quantity can be reduced.</description>
-        <name>abc_Get_Product</name>
-        <label>Get Product</label>
-        <locationX>352</locationX>
-        <locationY>323</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>abc_decrease_available_quantity</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>abc_Loop_Line_Items.abc_Product__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>abc_Product__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
         <description>Single bulk DML for all products touched by this order&apos;s line items, run once after the loop instead of once per iteration.</description>
         <name>abc_Update_Products</name>
         <label>Update Products</label>
-        <locationX>176</locationX>
-        <locationY>755</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputReference>abc_col_products_to_update</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>abc_Get_Order_Line_Items</targetReference>

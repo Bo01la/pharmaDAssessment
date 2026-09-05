@@ -129,6 +129,7 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>abc_low_stock_alert</members>
 		<members>enablement_coaching_feedback_ready</members>
 		<name>CustomNotificationType</name>
 	</types>
@@ -509,6 +510,7 @@
 		<members>WorkTypeGroup</members>
 		<members>WorkTypeGroupMember</members>
 		<members>WorkflowSLAAction</members>
+		<members>abc_API_Log__c</members>
 		<members>abc_Archived_Order__b</members>
 		<members>abc_Customer__c</members>
 		<members>abc_Order_Line_Item__c</members>

@@ -160,6 +160,42 @@
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>abc_APILogger</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_ArchiveOrdersBatch</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_ArchiveOrdersBatchTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_CartAPI</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_CartAPITest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_ProductAPI</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_ProductAPITest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_WarehouseOrdersController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>abc_WarehouseOrdersControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -4308,6 +4344,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>abc_API_Log__c.abc_Class_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>abc_API_Log__c.abc_Error_Message__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>abc_API_Log__c.abc_Method_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>abc_API_Log__c.abc_Stack_Trace__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>abc_Archived_Order__b.abc_City__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4388,11 +4444,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>abc_Order__c.abc_Client_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>abc_Order__c.abc_Customer__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4466,6 +4517,10 @@
         <field>abc_Product__c.abc_SKU__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>abc_deduct_product_quantity_on_delivery</flow>
+    </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
         <flow>abc_product_and_line_item_price_match</flow>
@@ -4683,6 +4738,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>LegalEntity-Legal Entity Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>LiveChatTranscriptActive-Chat Transcript %28In Progress%29 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>LiveChatTranscriptWaiting-Chat Transcript %28Waiting%29 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Location-Location Layout</layout>
@@ -4919,6 +4980,9 @@
         <layout>WorkTypeGroupMember-Work Type Group Member Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>abc_API_Log__c-API Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>abc_Customer__c-Customer Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4970,6 +5034,10 @@
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <pageAccesses>
+        <apexPage>abc_WarehouseOrders</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>

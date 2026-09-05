@@ -4,11 +4,18 @@
     <availability>online</availability>
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
+    <hasMenubar>false</hasMenubar>
+    <hasScrollbars>false</hasScrollbars>
+    <hasToolbar>false</hasToolbar>
+    <height>600</height>
+    <isResizable>false</isResizable>
     <linkType>url</linkType>
     <masterLabel>Warehouse Orders View</masterLabel>
     <openType>newWindow</openType>
     <position>none</position>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
+    <showsLocation>false</showsLocation>
+    <showsStatus>false</showsStatus>
     <url>/apex/abc_WarehouseOrders</url>
 </WebLink>

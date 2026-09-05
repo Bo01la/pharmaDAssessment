@@ -3,7 +3,6 @@
     <fullName>abc_Error_Message__c</fullName>
     <label>Error Message</label>
     <length>131072</length>
-    <required>false</required>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
